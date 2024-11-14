@@ -20,6 +20,7 @@ def main():
     finally:
         pygame.quit()
 
+print("testing testing git commands lets go")
 
 if __name__ == "__main__":
     main()
