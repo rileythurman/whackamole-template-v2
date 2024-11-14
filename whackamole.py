@@ -33,27 +33,25 @@ def main():
                 )
 
         def move_mole():
-            row = random.randint(1, grid_rows)
-            col = random.randint(1, grid_cols)
-            x = col * 32 - mole_width // 2
-            y = row * 32 - mole_height // 2
+            mole_row = random.randint(1, grid_rows)
+            mole_col = random.randint(1, grid_cols)
 
-            mole_coords = (x,y)
+            mole_x = mole_col * 32 - mole_width // 2
+            mole_y = mole_row * 32 - mole_height // 2
 
-            mole_rect = mole_image.get_rect(center=(x, y))
+            mole_rect = mole_image.get_rect(center=(mole_x, mole_y))
 
             screen.fill("light green")
             draw_grid()
             screen.blit(mole_image, mole_rect)
             pygame.display.flip()
 
-        #def check_mole_clicked():
+            return mole_rect
 
-
-
+        mole_rect = mole_image.get_rect(topleft=(0, 0))
         screen.fill("light green")
         draw_grid()
-        screen.blit(mole_image, mole_image.get_rect(topleft=(0, 0)))
+        screen.blit(mole_image, mole_rect)
         pygame.display.flip()
         clock.tick(60)
 
@@ -62,13 +60,14 @@ def main():
                 if event.type == pygame.QUIT:
                     running = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    x, y = event.pos
-                    move_mole()
-                    pygame.display.flip()
+                    mouse_pos = event.pos
+                    if (mole_rect.left <= mouse_pos[0] <= mole_rect.right
+                            and mole_rect.top <= mouse_pos[1] <= mole_rect.bottom):
+                        print("Hit!")
+                        mole_rect = move_mole()
 
     finally:
         pygame.quit()
-
 
 if __name__ == "__main__":
     main()
